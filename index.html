@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="./node_modules/angular/angular.js"></script>
+    <script src="./app.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <!-- <pre>{{ timerArr | json }}</pre> -->
+    <div ng-repeat="timer in timerArr">
+        <button ng-click="stop(timer)">stop</button>
+        <button ng-click="start(timer)">start</button>
+        <div>
+            name:
+            <span data-ng-show="!editMode">{{ timer.name }}</span>
+            <input type="text" data-ng-show="editMode" data-ng-model="timer.name" data-ng-required />
+            <p />
+            {{timer.t.getHours()}}:
+            {{timer.t.getMinutes()}}:
+            {{timer.t.getSeconds()}}:
+            {{timer.t.getMilliseconds()}}
+            <p />
+            <button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true; editAppKey(entry)"
+                class="btn btn-default">Edit</button>
+            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false; cancel()"
+                class="btn btn-default">Cancel</button>
+            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false"
+                class="btn btn-default">Save</button>
+        </div>
+        <p />
+        <button ng-click="addHours(timer, 1000 * 60 * 60)">+hour</button>
+        <button ng-click="addHours(timer, 1000 * 60)">+minute</button>
+        <button ng-click="addHours(timer, 1000)">+second</button>
+        <br />
+        <button ng-click="addHours(timer, -1000 * 60 * 60)">-hour</button>
+        <button ng-click="addHours(timer, -1000 * 60)">-minute</button>
+        <button ng-click="addHours(timer, -1000)">-second</button>
+        <p />
+        <button class="remove" ng-click="remove($index)">remove</button>
+    </div>
+    <button ng-click="createTimer()">create</button>
+</body>
+
+</html>

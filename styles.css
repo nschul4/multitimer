@@ -1,0 +1,15 @@
+body {
+    border: 1px solid black;
+    padding: 16px;
+    display: inline-block;
+}
+
+div {
+    border: 1px solid black;
+    padding: 16px;
+    /* display: inline-block; */
+}
+
+.remove {
+    float: right;
+}
