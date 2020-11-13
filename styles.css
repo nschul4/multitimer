@@ -6,8 +6,24 @@ body {
 
 div {
     border: 1px solid black;
-    padding: 16px;
+    padding: 8px;
+    margin: 8px;
+
     /* display: inline-block; */
+
+    overflow: auto; /* to prevent the .remove class from dipping into border bottom */
+}
+
+.time {
+    font-size: 20px;
+    /* float: right; */
+}
+
+.bump-buttons {
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    /* float: right; */
 }
 
 .remove {
