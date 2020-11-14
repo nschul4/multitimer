@@ -9,7 +9,7 @@ div {
     padding: 8px;
     margin: 8px;
 
-    /* display: inline-block; */
+    display: inline-block;
 
     overflow: auto; /* to prevent the .remove class from dipping into border bottom */
 }
@@ -27,5 +27,5 @@ div {
 }
 
 .remove {
-    float: right;
+    /* float: right; */
 }
