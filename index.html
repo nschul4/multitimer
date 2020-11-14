@@ -8,7 +8,6 @@
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
-    <!-- <pre>{{ timerArr | json }}</pre> -->
     <div ng-repeat="timer in timerArr">
         <div>
             name:
@@ -30,15 +29,10 @@
                 <button ng-click="addHours(timer.tInit, -1000 * 60)">-minute</button>
                 <button ng-click="addHours(timer.tInit, -1000)">-second</button>
             </div>
-            <button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true"
-                class="btn btn-default">edit</button>
-            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false" class="btn btn-default">edit
-                done</button>
+            <button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true">edit</button>
+            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false">edit done</button>
         </div>
         <div>
-            <button data-ng-show="timer.going" ng-click="stop(timer)">stop</button>
-            <button data-ng-show="!timer.going" ng-click="start(timer)">start</button>
-            <button ng-click="reset(timer)" ng-click="reset(timer)">reset</button>
             <div class="time">
                 {{ ("00" + timer.t.getHours()).slice(-2)        }}:
                 {{ ("00" + timer.t.getMinutes()).slice(-2)      }}:
@@ -54,6 +48,10 @@
                 <button ng-click="addHours(timer.t, -1000 * 60)">-minute</button>
                 <button ng-click="addHours(timer.t, -1000)">-second</button>
             </div>
+            <br />
+            <button data-ng-show="timer.going" ng-click="stop(timer)">stop</button>
+            <button data-ng-show="!timer.going" ng-click="start(timer)">start</button>
+            <button ng-click="reset(timer)" ng-click="reset(timer)">reset</button>
         </div>
         <br />
         <button class="remove" ng-click="remove($index)">remove</button>
