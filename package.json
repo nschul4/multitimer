@@ -1,15 +1,12 @@
 {
-  "name": "foo",
+  "name": "multitimer",
   "version": "1.0.0",
-  "description": "```\r rm -rf node_modules package.js package-lock.js\r npm init --yes\r npm install angular\r ```",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "angular": "^1.8.2"
-  },
-  "keywords": []
+  }
 }
