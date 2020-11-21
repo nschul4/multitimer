@@ -4,10 +4,10 @@ angular.module('myApp', [])
 
     .controller("myCtrl", ['$scope', '$interval', function ($scope, $interval) {
 
-        var zeroDate = createZeroDate();
+        const zeroDate = createZeroDate();
         $scope.zeroDate = zeroDate;
 
-        var timerArr = [
+        const timerArr = [
             {
                 name: "mudville",
                 tInit: createDefaultDate(),
@@ -70,7 +70,7 @@ angular.module('myApp', [])
             }
         }
 
-        var refreshInterval = 77;
+        const refreshInterval = 77;
         $interval(function () {
             timerArr.forEach(function (timer) {
                 var tmp = new Date(timer.t);
