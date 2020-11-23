@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-undef
 angular.module('myApp', [])
 
     .controller("myCtrl", ['$scope', '$interval', function ($scope, $interval) {
