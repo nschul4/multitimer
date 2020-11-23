@@ -1,14 +1,15 @@
 'use strict';
 
 // eslint-disable-next-line no-undef
-angular.module('myApp', [])
+angular.module('myApp', ['LocalStorageModule'])
 
-    .controller("myCtrl", ['$scope', '$interval', function ($scope, $interval) {
+    .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
+        localStorageServiceProvider.setPrefix('multitimer');
+    }])
 
-        const zeroDate = createZeroDate();
-        $scope.zeroDate = zeroDate;
+    .controller("myCtrl", ['$scope', '$interval', 'localStorageService', function ($scope, $interval, localStorageService) {
 
-        const timerArr = [
+        var defaultTimerArr = [
             {
                 name: "mudville",
                 tInit: createDefaultDate(),
@@ -21,23 +22,45 @@ angular.module('myApp', [])
                 tDisplay: createDefaultDate(),
             },
         ];
-        $scope.timerArr = timerArr;
+
+        function getTimerArr() {
+            var timerArr = $scope.timerArr;
+            if (timerArr == null) {
+                var storedTimerArr = localStorageService.get('timerArr');
+                if (storedTimerArr == null) {
+                    localStorageService.set('timerArr', defaultTimerArr);
+                    timerArr = defaultTimerArr;
+                } else {
+                    timerArr = storedTimerArr;
+                }
+            }
+            return timerArr;
+        }
+
+        const zeroDate = createZeroDate();
+        $scope.zeroDate = zeroDate;
+
+        $scope.timerArr = getTimerArr();
 
         $scope.createTimer = function () {
+            const timerArr = getTimerArr();
             timerArr.push({
                 name: "",
                 tInit: createDefaultDate(),
                 tDisplay: createDefaultDate(),
                 going: false,
             });
+            localStorageService.set('timerArr', timerArr);
         }
 
         $scope.remove = function (index) {
             if (confirm("Confirm:\n    remove timer \""
-                + timerArr[index].name
+                + getTimerArr()[index].name
                 + "\"\n        ?")
             ) {
+                const timerArr = getTimerArr();
                 timerArr.splice(index, 1);
+                localStorageService.set('timerArr', timerArr);
             }
         }
 
@@ -64,6 +87,9 @@ angular.module('myApp', [])
 
             timer.going = true;
 
+            const timerArr = getTimerArr();
+            localStorageService.set('timerArr', timerArr);
+
             console.log("start", timer);
         }
 
@@ -81,6 +107,9 @@ angular.module('myApp', [])
                 dateToBump.setSeconds(dateToBump.getSeconds() + timer.tDisplay.seconds);
                 timer.tFinal = dateToBump.getTime();
             }
+
+            const timerArr = getTimerArr();
+            localStorageService.set('timerArr', timerArr);
 
             console.log("reset", timer);
         }
@@ -113,7 +142,7 @@ angular.module('myApp', [])
 
         const refreshInterval = 77;
         $interval(function () {
-            timerArr.forEach(function (timer) {
+            getTimerArr().forEach(function (timer) {
                 if (timer.going) {
                     const nowDate = new Date();
                     const nowMs = nowDate.getTime();
