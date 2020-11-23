@@ -34,19 +34,19 @@
         </div>
         <div>
             <div class="time">
-                {{ ("00" + timer.t.getHours()).slice(-2)        }}:
-                {{ ("00" + timer.t.getMinutes()).slice(-2)      }}:
-                {{ ("00" + timer.t.getSeconds()).slice(-2)      }}:
-                {{ ("00" + timer.t.getMilliseconds()).slice(-2) }}
+                {{ ("00" + timer.tDisplay.getHours()).slice(-2)        }}:
+                {{ ("00" + timer.tDisplay.getMinutes()).slice(-2)      }}:
+                {{ ("00" + timer.tDisplay.getSeconds()).slice(-2)      }}:
+                {{ ("00" + timer.tDisplay.getMilliseconds()).slice(-2) }}
             </div>
             <div class="bump-buttons">
-                <button ng-click="addHours(timer.t, 1000 * 60 * 60)">+hour</button>
-                <button ng-click="addHours(timer.t, 1000 * 60)">+minute</button>
-                <button ng-click="addHours(timer.t, 1000)">+second</button>
+                <button ng-click="addHours(timer.tDisplay, 1000 * 60 * 60)">+hour</button>
+                <button ng-click="addHours(timer.tDisplay, 1000 * 60)">+minute</button>
+                <button ng-click="addHours(timer.tDisplay, 1000)">+second</button>
                 <br />
-                <button ng-click="addHours(timer.t, -1000 * 60 * 60)">-hour</button>
-                <button ng-click="addHours(timer.t, -1000 * 60)">-minute</button>
-                <button ng-click="addHours(timer.t, -1000)">-second</button>
+                <button ng-click="addHours(timer.tDisplay, -1000 * 60 * 60)">-hour</button>
+                <button ng-click="addHours(timer.tDisplay, -1000 * 60)">-minute</button>
+                <button ng-click="addHours(timer.tDisplay, -1000)">-second</button>
             </div>
             <br />
             <button data-ng-show="timer.going" ng-click="stop(timer)">stop</button>

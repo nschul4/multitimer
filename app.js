@@ -11,7 +11,7 @@ angular.module('myApp', [])
             {
                 name: "mudville",
                 tInit: createDefaultDate(),
-                t: createDefaultDate(),
+                tDisplay: createDefaultDate(),
                 going: true,
             },
             {
@@ -26,7 +26,7 @@ angular.module('myApp', [])
             timerArr.push({
                 name: "",
                 tInit: createDefaultDate(),
-                t: createDefaultDate(),
+                tDisplay: createDefaultDate(),
                 going: false,
             });
         }
@@ -46,39 +46,39 @@ angular.module('myApp', [])
 
         $scope.start = function (timer) {
             if (timer.tInit) {
-                if (!hasTimeLeft(timer.t)) {
-                    timer.t = new Date(timer.tInit);
+                if (!hasTimeLeft(timer.tDisplay)) {
+                    timer.tDisplay = new Date(timer.tInit);
                 }
             } else {
-                timer.t = createDefaultDate();
+                timer.tDisplay = createDefaultDate();
             }
             timer.going = true;
         }
 
         $scope.reset = function (timer) {
             if (timer.tInit) {
-                timer.t = new Date(timer.tInit);
+                timer.tDisplay = new Date(timer.tInit);
             } else {
-                timer.t = createDefaultDate();
+                timer.tDisplay = createDefaultDate();
             }
         }
 
-        $scope.addHours = function (t, ms) {
-            if (t) {
-                var tmp = new Date(t);
-                t.setTime(tmp.getTime() + ms);
+        $scope.addHours = function (tDisplay, ms) {
+            if (tDisplay) {
+                var tmp = new Date(tDisplay);
+                tDisplay.setTime(tmp.getTime() + ms);
             }
         }
 
         const refreshInterval = 77;
         $interval(function () {
             timerArr.forEach(function (timer) {
-                var tmp = new Date(timer.t);
-                if (timer.t && timer.going) {
-                    timer.t.setTime(tmp.getTime() - refreshInterval);
-                    if (!hasTimeLeft(timer.t)) {
+                var tmp = new Date(timer.tDisplay);
+                if (timer.tDisplay && timer.going) {
+                    timer.tDisplay.setTime(tmp.getTime() - refreshInterval);
+                    if (!hasTimeLeft(timer.tDisplay)) {
                         timer.going = false;
-                        timer.t = new Date(zeroDate);
+                        timer.tDisplay = new Date(zeroDate);
                     }
                 }
             });
