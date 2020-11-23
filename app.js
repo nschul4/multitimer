@@ -18,7 +18,7 @@ angular.module('myApp', [])
             {
                 name: "the main road",
                 tInit: createDefaultDate(),
-                t: createDefaultDate(),
+                tDisplay: createDefaultDate(),
             },
         ];
         $scope.timerArr = timerArr;
@@ -46,59 +46,105 @@ angular.module('myApp', [])
         }
 
         $scope.start = function (timer) {
-            if (timer.tInit) {
-                if (!hasTimeLeft(timer.tDisplay)) {
-                    timer.tDisplay = new Date(timer.tInit);
-                }
+            if (timer.going === true) {
+                return;
+            }
+
+            if ("tInit" in timer) {
+                timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
                 timer.tDisplay = createDefaultDate();
             }
+
+            const dateToBump = new Date();
+            dateToBump.setHours(dateToBump.getHours() + timer.tDisplay.hours);
+            dateToBump.setMinutes(dateToBump.getMinutes() + timer.tDisplay.minutes);
+            dateToBump.setSeconds(dateToBump.getSeconds() + timer.tDisplay.seconds);
+            timer.tFinal = dateToBump.getTime();
+
             timer.going = true;
+
+            console.log("start", timer);
         }
 
         $scope.reset = function (timer) {
-            if (timer.tInit) {
-                timer.tDisplay = new Date(timer.tInit);
+            if ("tInit" in timer) {
+                timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
                 timer.tDisplay = createDefaultDate();
             }
+
+            if (timer.going) {
+                const dateToBump = new Date();
+                dateToBump.setHours(dateToBump.getHours() + timer.tDisplay.hours);
+                dateToBump.setMinutes(dateToBump.getMinutes() + timer.tDisplay.minutes);
+                dateToBump.setSeconds(dateToBump.getSeconds() + timer.tDisplay.seconds);
+                timer.tFinal = dateToBump.getTime();
+            }
+
+            console.log("reset", timer);
         }
 
-        $scope.addMs = function (tDisplay, ms) {
-            if (tDisplay) {
-                var tmp = new Date(tDisplay);
-                tDisplay.setTime(tmp.getTime() + ms);
+        function msToTimerObj(ms) {
+            var hours = Math.floor(ms / 1000 / 60 / 60);
+            ms -= hours * 1000 * 60 * 60;
+
+            var minutes = Math.floor(ms / 1000 / 60);
+            ms -= minutes * 1000 * 60;
+
+            var seconds = Math.floor(ms / 1000);
+            ms -= seconds * 1000;
+
+            return {
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds,
+                ms: ms,
             }
+        }
+
+        $scope.addMs = function (timer, ms) {
+            const tmp = msToTimerObj(ms);
+            timer.hours += tmp.hours;
+            timer.minutes += tmp.minutes;
+            timer.seconds += tmp.seconds;
+            timer.ms += tmp.ms;
         }
 
         const refreshInterval = 77;
         $interval(function () {
             timerArr.forEach(function (timer) {
-                var tmp = new Date(timer.tDisplay);
-                if (timer.tDisplay && timer.going) {
-                    timer.tDisplay.setTime(tmp.getTime() - refreshInterval);
-                    if (!hasTimeLeft(timer.tDisplay)) {
+                if (timer.going) {
+                    const nowDate = new Date();
+                    const nowMs = nowDate.getTime();
+                    const timeRemaining = timer.tFinal - nowMs;
+                    if (timeRemaining > 0) {
+                        const tmp = msToTimerObj(timeRemaining);
+                        timer.tDisplay.hours = tmp.hours;
+                        timer.tDisplay.minutes = tmp.minutes;
+                        timer.tDisplay.seconds = tmp.seconds;
+                        timer.tDisplay.ms = tmp.ms;
+                    } else {
                         timer.going = false;
-                        timer.tDisplay = new Date(zeroDate);
+                        timer.tDisplay = zeroDate;
+                        console.log("done", timer);
                     }
                 }
             });
         }, refreshInterval);
 
         function createZeroDate() {
-            var tmp = new Date(0);
-            tmp.setHours(-24);
-            return tmp;
-
+            return {
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+                ms: 0,
+            };
         }
 
         function createDefaultDate() {
             var defaultDate = createZeroDate();
             defaultDate.seconds = 1;
             return defaultDate;
-        }
-
-        function hasTimeLeft(t) {
-            return t.getTime() > zeroDate.getTime();
         }
     }]);

@@ -15,10 +15,10 @@
             <input type="text" data-ng-show="editMode" data-ng-model="timer.name" data-ng-required />
             <br />
             <div class="time">
-                {{ ("00" + timer.tInit.getHours()).slice(-2)        }}:
-                {{ ("00" + timer.tInit.getMinutes()).slice(-2)      }}:
-                {{ ("00" + timer.tInit.getSeconds()).slice(-2)      }}:
-                {{ ("00" + timer.tInit.getMilliseconds()).slice(-2) }}
+                {{ ("00" + timer.tInit.hours).slice(-2)   }}:
+                {{ ("00" + timer.tInit.minutes).slice(-2) }}:
+                {{ ("00" + timer.tInit.seconds).slice(-2) }}:
+                {{ ("000" + timer.tInit.ms).slice(-3)     }}
             </div>
             <div class="bump-buttons" ng-if="editMode">
                 <button ng-click="addMs(timer.tInit, 1000 * 60 * 60)">+hour</button>
@@ -34,10 +34,10 @@
         </div>
         <div>
             <div class="time">
-                {{ ("00" + timer.tDisplay.getHours()).slice(-2)        }}:
-                {{ ("00" + timer.tDisplay.getMinutes()).slice(-2)      }}:
-                {{ ("00" + timer.tDisplay.getSeconds()).slice(-2)      }}:
-                {{ ("00" + timer.tDisplay.getMilliseconds()).slice(-2) }}
+                {{ ("00" + timer.tDisplay.hours).slice(-2)   }}:
+                {{ ("00" + timer.tDisplay.minutes).slice(-2) }}:
+                {{ ("00" + timer.tDisplay.seconds).slice(-2) }}:
+                {{ ("000" + timer.tDisplay.ms).slice(-3)     }}
             </div>
             <div class="bump-buttons">
                 <button ng-click="addMs(timer.tDisplay, 1000 * 60 * 60)">+hour</button>
