@@ -64,7 +64,7 @@ angular.module('myApp', [])
             }
         }
 
-        $scope.addHours = function (tDisplay, ms) {
+        $scope.addMs = function (tDisplay, ms) {
             if (tDisplay) {
                 var tmp = new Date(tDisplay);
                 tDisplay.setTime(tmp.getTime() + ms);
