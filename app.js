@@ -11,24 +11,25 @@ angular.module('myApp', ['LocalStorageModule'])
 
         var defaultTimerArr = [
             {
-                name: "mudville",
-                tInit: createDefaultDate(),
-                tDisplay: createDefaultDate(),
+                name: "foo",
+                tInit: createDefaultTimer(),
                 going: true,
             },
             {
-                name: "the main road",
-                tInit: createDefaultDate(),
-                tDisplay: createDefaultDate(),
+                name: "3 minutes",
+                tInit: createMinuteTimer(3)
             },
         ];
+
+        const LOCAL_STORAGE_KEY = "multitimer";
 
         function getTimerArr() {
             var timerArr = $scope.timerArr;
             if (timerArr == null) {
-                var storedTimerArr = localStorageService.get('timerArr');
+                var storedTimerArr;
+                storedTimerArr = localStorageService.get(LOCAL_STORAGE_KEY);
                 if (storedTimerArr == null) {
-                    localStorageService.set('timerArr', defaultTimerArr);
+                    localStorageService.set(LOCAL_STORAGE_KEY, defaultTimerArr);
                     timerArr = defaultTimerArr;
                 } else {
                     timerArr = storedTimerArr;
@@ -46,11 +47,11 @@ angular.module('myApp', ['LocalStorageModule'])
             const timerArr = getTimerArr();
             timerArr.push({
                 name: "",
-                tInit: createDefaultDate(),
-                tDisplay: createDefaultDate(),
+                tInit: createDefaultTimer(),
+                tDisplay: createDefaultTimer(),
                 going: false,
             });
-            localStorageService.set('timerArr', timerArr);
+            localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
         }
 
         $scope.remove = function (index) {
@@ -60,7 +61,7 @@ angular.module('myApp', ['LocalStorageModule'])
             ) {
                 const timerArr = getTimerArr();
                 timerArr.splice(index, 1);
-                localStorageService.set('timerArr', timerArr);
+                localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
             }
         }
 
@@ -76,19 +77,16 @@ angular.module('myApp', ['LocalStorageModule'])
             if ("tInit" in timer) {
                 timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
-                timer.tDisplay = createDefaultDate();
+                timer.tDisplay = createDefaultTimer();
             }
 
-            const dateToBump = new Date();
-            dateToBump.setHours(dateToBump.getHours() + timer.tDisplay.hours);
-            dateToBump.setMinutes(dateToBump.getMinutes() + timer.tDisplay.minutes);
-            dateToBump.setSeconds(dateToBump.getSeconds() + timer.tDisplay.seconds);
-            timer.tFinal = dateToBump.getTime();
+            const bumpedDate = createBumpedDate(timer.tDisplay);
+            timer.tFinal = bumpedDate.getTime();
 
             timer.going = true;
 
             const timerArr = getTimerArr();
-            localStorageService.set('timerArr', timerArr);
+            localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
 
             console.log("start", timer);
         }
@@ -97,21 +95,26 @@ angular.module('myApp', ['LocalStorageModule'])
             if ("tInit" in timer) {
                 timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
-                timer.tDisplay = createDefaultDate();
+                timer.tDisplay = createDefaultTimer();
             }
 
             if (timer.going) {
-                const dateToBump = new Date();
-                dateToBump.setHours(dateToBump.getHours() + timer.tDisplay.hours);
-                dateToBump.setMinutes(dateToBump.getMinutes() + timer.tDisplay.minutes);
-                dateToBump.setSeconds(dateToBump.getSeconds() + timer.tDisplay.seconds);
-                timer.tFinal = dateToBump.getTime();
+                const bumpedDate = createBumpedDate(timer.tDisplay);
+                timer.tFinal = bumpedDate.getTime();
             }
 
             const timerArr = getTimerArr();
-            localStorageService.set('timerArr', timerArr);
+            localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
 
             console.log("reset", timer);
+        }
+
+        function createBumpedDate(timer) {
+            const newDate = new Date();
+            newDate.setHours(newDate.getHours() + timer.hours);
+            newDate.setMinutes(newDate.getMinutes() + timer.minutes);
+            newDate.setSeconds(newDate.getSeconds() + timer.seconds);
+            return newDate;
         }
 
         function msToTimerObj(ms) {
@@ -171,9 +174,15 @@ angular.module('myApp', ['LocalStorageModule'])
             };
         }
 
-        function createDefaultDate() {
+        function createDefaultTimer() {
             var defaultDate = createZeroDate();
-            defaultDate.seconds = 1;
+            defaultDate.seconds = 5;
+            return defaultDate;
+        }
+
+        function createMinuteTimer(minutes) {
+            var defaultDate = createZeroDate();
+            defaultDate.minutes = minutes;
             return defaultDate;
         }
     }]);
