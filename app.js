@@ -92,10 +92,9 @@ angular.module('myApp', [])
         }
 
         function createDefaultDate() {
-            var tmp = createZeroDate();
-            // tmp.setMinutes(10);
-            tmp.setSeconds(1);
-            return tmp;
+            var defaultDate = createZeroDate();
+            defaultDate.seconds = 1;
+            return defaultDate;
         }
 
         function hasTimeLeft(t) {
