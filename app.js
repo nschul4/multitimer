@@ -166,6 +166,11 @@ angular.module('myApp', ['LocalStorageModule'])
             }
         }
 
+        $scope.onChange = function onChange() {
+            const timerArr = getTimerArr();
+            localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
+        }
+
         const refreshInterval = 103;
         $interval(function () {
             getTimerArr().forEach(function (timer) {

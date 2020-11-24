@@ -31,7 +31,8 @@
                 <button ng-click="addMsToDuration(timer.durationInit, -1000)">-second</button>
             </div>
             <button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true">edit</button>
-            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false">edit done</button>
+            <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false; onChange();">edit
+                done</button>
         </div>
         <div>
             <div class="time">
