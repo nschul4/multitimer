@@ -163,6 +163,8 @@ angular.module('myApp', ['LocalStorageModule'])
                     } else {
                         timer.going = false;
                         timer.durationDisplay = zeroDate;
+                        const timerArr = getTimerArr();
+                        localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
                         console.log("done", timer);
                     }
                 }
