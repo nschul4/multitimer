@@ -12,12 +12,12 @@ angular.module('myApp', ['LocalStorageModule'])
         var defaultTimerArr = [
             {
                 name: "foo",
-                tInit: createDefaultTimer(),
+                tInit: createDurationDefault(),
                 going: true,
             },
             {
                 name: "3 minutes",
-                tInit: createMinuteTimer(3)
+                tInit: createDurationMinutes(3)
             },
         ];
 
@@ -38,7 +38,7 @@ angular.module('myApp', ['LocalStorageModule'])
             return timerArr;
         }
 
-        const zeroDate = createZeroDate();
+        const zeroDate = createDurationZero();
         $scope.zeroDate = zeroDate;
 
         $scope.timerArr = getTimerArr();
@@ -47,8 +47,8 @@ angular.module('myApp', ['LocalStorageModule'])
             const timerArr = getTimerArr();
             timerArr.push({
                 name: "",
-                tInit: createDefaultTimer(),
-                tDisplay: createDefaultTimer(),
+                tInit: createDurationDefault(),
+                tDisplay: createDurationDefault(),
                 going: false,
             });
             localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
@@ -77,7 +77,7 @@ angular.module('myApp', ['LocalStorageModule'])
             if ("tInit" in timer) {
                 timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
-                timer.tDisplay = createDefaultTimer();
+                timer.tDisplay = createDurationDefault();
             }
 
             const bumpedDate = createBumpedDate(timer.tDisplay);
@@ -95,7 +95,7 @@ angular.module('myApp', ['LocalStorageModule'])
             if ("tInit" in timer) {
                 timer.tDisplay = Object.assign({}, timer.tInit);
             } else {
-                timer.tDisplay = createDefaultTimer();
+                timer.tDisplay = createDurationDefault();
             }
 
             if (timer.going) {
@@ -135,12 +135,16 @@ angular.module('myApp', ['LocalStorageModule'])
             }
         }
 
-        $scope.addMs = function (timer, ms) {
+        $scope.addMsToTimer = function (timer, ms) {
+            timer.tFinal += ms;
+        }
+
+        $scope.addMsToDuration = function (duration, ms) {
             const tmp = msToTimerObj(ms);
-            timer.hours += tmp.hours;
-            timer.minutes += tmp.minutes;
-            timer.seconds += tmp.seconds;
-            timer.ms += tmp.ms;
+            duration.hours += tmp.hours;
+            duration.minutes += tmp.minutes;
+            duration.seconds += tmp.seconds;
+            duration.ms += tmp.ms;
         }
 
         const refreshInterval = 77;
@@ -165,7 +169,7 @@ angular.module('myApp', ['LocalStorageModule'])
             });
         }, refreshInterval);
 
-        function createZeroDate() {
+        function createDurationZero() {
             return {
                 hours: 0,
                 minutes: 0,
@@ -174,14 +178,14 @@ angular.module('myApp', ['LocalStorageModule'])
             };
         }
 
-        function createDefaultTimer() {
-            var defaultDate = createZeroDate();
+        function createDurationDefault() {
+            var defaultDate = createDurationZero();
             defaultDate.seconds = 5;
             return defaultDate;
         }
 
-        function createMinuteTimer(minutes) {
-            var defaultDate = createZeroDate();
+        function createDurationMinutes(minutes) {
+            var defaultDate = createDurationZero();
             defaultDate.minutes = minutes;
             return defaultDate;
         }
