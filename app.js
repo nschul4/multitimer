@@ -74,21 +74,17 @@ angular.module('myApp', ['LocalStorageModule'])
                 return;
             }
 
-            if ("durationInit" in timer) {
-                timer.durationDisplay = Object.assign({}, timer.durationInit);
-            } else {
-                timer.durationDisplay = createDurationDefault();
+            if ("durationDisplay" in timer) {
+                const bumpedDate = createBumpedDate(timer.durationDisplay);
+                timer.tFinal = bumpedDate.getTime();
             }
-
-            const bumpedDate = createBumpedDate(timer.durationDisplay);
-            timer.tFinal = bumpedDate.getTime();
 
             timer.going = true;
 
             const timerArr = getTimerArr();
             localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
 
-            console.log("start", timer);
+            // console.log("start", timer);
         }
 
         $scope.reset = function (timer) {
@@ -106,18 +102,27 @@ angular.module('myApp', ['LocalStorageModule'])
             const timerArr = getTimerArr();
             localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
 
-            console.log("reset", timer);
+            // console.log("reset", timer);
         }
 
-        function createBumpedDate(timer) {
+        function createBumpedDate(duration) {
             const newDate = new Date();
-            newDate.setHours(newDate.getHours() + timer.hours);
-            newDate.setMinutes(newDate.getMinutes() + timer.minutes);
-            newDate.setSeconds(newDate.getSeconds() + timer.seconds);
+            newDate.setHours(newDate.getHours() + duration.hours);
+            newDate.setMinutes(newDate.getMinutes() + duration.minutes);
+            newDate.setSeconds(newDate.getSeconds() + duration.seconds);
             return newDate;
         }
 
-        function msToTimerObj(ms) {
+        function durationObjToMs(duration) {
+            var totalMs = 0;
+            totalMs += duration.hours * 1000 * 60 * 60;
+            totalMs += duration.minutes * 1000 * 60;
+            totalMs += duration.seconds * 1000;
+            totalMs += duration.ms;
+            return totalMs;
+        }
+
+        function msToDurationObj(ms) {
             var hours = Math.floor(ms / 1000 / 60 / 60);
             ms -= hours * 1000 * 60 * 60;
 
@@ -136,15 +141,25 @@ angular.module('myApp', ['LocalStorageModule'])
         }
 
         $scope.addMsToTimer = function (timer, ms) {
-            timer.tFinal += ms;
+            if (timer.going) {
+                timer.tFinal += ms;
+            } else {
+                addMsToDuration(timer.durationDisplay, ms);
+            }
         }
 
-        $scope.addMsToDuration = function (duration, ms) {
-            const tmp = msToTimerObj(ms);
-            duration.hours += tmp.hours;
-            duration.minutes += tmp.minutes;
-            duration.seconds += tmp.seconds;
-            duration.ms += tmp.ms;
+        $scope.addMsToDuration = addMsToDuration;
+
+        function addMsToDuration(duration, ms) {
+            var durationMs = durationObjToMs(duration);
+            var newDurationMs = durationMs + ms;
+            if (newDurationMs >= 0) {
+                var newDurationObj = msToDurationObj(newDurationMs);
+                duration.hours = newDurationObj.hours;
+                duration.minutes = newDurationObj.minutes;
+                duration.seconds = newDurationObj.seconds;
+                duration.ms = newDurationObj.ms;
+            }
         }
 
         const refreshInterval = 103;
@@ -155,7 +170,7 @@ angular.module('myApp', ['LocalStorageModule'])
                     const nowMs = nowDate.getTime();
                     const timeRemaining = timer.tFinal - nowMs;
                     if (timeRemaining > 0) {
-                        const tmp = msToTimerObj(timeRemaining);
+                        const tmp = msToDurationObj(timeRemaining);
                         timer.durationDisplay.hours = tmp.hours;
                         timer.durationDisplay.minutes = tmp.minutes;
                         timer.durationDisplay.seconds = tmp.seconds;
@@ -165,7 +180,7 @@ angular.module('myApp', ['LocalStorageModule'])
                         timer.durationDisplay = zeroDate;
                         const timerArr = getTimerArr();
                         localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
-                        console.log("done", timer);
+                        // console.log("done", timer);
                     }
                 }
             });
