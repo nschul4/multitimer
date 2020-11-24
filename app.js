@@ -147,7 +147,7 @@ angular.module('myApp', ['LocalStorageModule'])
             duration.ms += tmp.ms;
         }
 
-        const refreshInterval = 77;
+        const refreshInterval = 103;
         $interval(function () {
             getTimerArr().forEach(function (timer) {
                 if (timer.going) {
