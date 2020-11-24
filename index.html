@@ -16,29 +16,29 @@
             <input type="text" data-ng-show="editMode" data-ng-model="timer.name" data-ng-required />
             <br />
             <div class="time">
-                {{ ("00" + timer.tInit.hours).slice(-2)   }}:
-                {{ ("00" + timer.tInit.minutes).slice(-2) }}:
-                {{ ("00" + timer.tInit.seconds).slice(-2) }}:
-                {{ ("000" + timer.tInit.ms).slice(-3)     }}
+                {{ ("00" + timer.durationInit.hours).slice(-2)   }}:
+                {{ ("00" + timer.durationInit.minutes).slice(-2) }}:
+                {{ ("00" + timer.durationInit.seconds).slice(-2) }}:
+                {{ ("000" + timer.durationInit.ms).slice(-3)     }}
             </div>
             <div class="bump-buttons" ng-if="editMode">
-                <button ng-click="addMsToDuration(timer.tInit, 1000 * 60 * 60)">+hour</button>
-                <button ng-click="addMsToDuration(timer.tInit, 1000 * 60)">+minute</button>
-                <button ng-click="addMsToDuration(timer.tInit, 1000)">+second</button>
+                <button ng-click="addMsToDuration(timer.durationInit, 1000 * 60 * 60)">+hour</button>
+                <button ng-click="addMsToDuration(timer.durationInit, 1000 * 60)">+minute</button>
+                <button ng-click="addMsToDuration(timer.durationInit, 1000)">+second</button>
                 <br />
-                <button ng-click="addMsToDuration(timer.tInit, -1000 * 60 * 60)">-hour</button>
-                <button ng-click="addMsToDuration(timer.tInit, -1000 * 60)">-minute</button>
-                <button ng-click="addMsToDuration(timer.tInit, -1000)">-second</button>
+                <button ng-click="addMsToDuration(timer.durationInit, -1000 * 60 * 60)">-hour</button>
+                <button ng-click="addMsToDuration(timer.durationInit, -1000 * 60)">-minute</button>
+                <button ng-click="addMsToDuration(timer.durationInit, -1000)">-second</button>
             </div>
             <button type="submit" data-ng-hide="editMode" data-ng-click="editMode = true">edit</button>
             <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false">edit done</button>
         </div>
         <div>
             <div class="time">
-                {{ ("00" + timer.tDisplay.hours).slice(-2)   }}:
-                {{ ("00" + timer.tDisplay.minutes).slice(-2) }}:
-                {{ ("00" + timer.tDisplay.seconds).slice(-2) }}:
-                {{ ("000" + timer.tDisplay.ms).slice(-3)     }}
+                {{ ("00" + timer.durationDisplay.hours).slice(-2)   }}:
+                {{ ("00" + timer.durationDisplay.minutes).slice(-2) }}:
+                {{ ("00" + timer.durationDisplay.seconds).slice(-2) }}:
+                {{ ("000" + timer.durationDisplay.ms).slice(-3)     }}
             </div>
             <div class="bump-buttons">
                 <button ng-click="addMsToTimer(timer, 1000 * 60 * 60)">+hour</button>
