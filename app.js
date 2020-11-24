@@ -75,6 +75,10 @@ angular.module('myApp', ['LocalStorageModule'])
             }
 
             if ("durationDisplay" in timer) {
+                var bumpMs = durationObjToMs(timer.durationDisplay);
+                if (bumpMs <= 0) {
+                    timer.durationDisplay = Object.assign({}, timer.durationInit);
+                }
                 const bumpedDate = createBumpedDate(timer.durationDisplay);
                 timer.tFinal = bumpedDate.getTime();
             }
