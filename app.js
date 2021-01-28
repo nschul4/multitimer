@@ -194,7 +194,7 @@ angular.module('myApp', ['LocalStorageModule'])
                         timer.durationDisplay = zeroDuration;
                         const timerArr = getTimerArr();
                         localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
-                        // console.log("done", timer);
+                        // console.log("done", timer, "@", nowDate);
                     }
                 }
             });
