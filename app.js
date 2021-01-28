@@ -54,7 +54,7 @@ angular.module('myApp', ['LocalStorageModule'])
             localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
         }
 
-        $scope.remove = function (index) {
+        $scope.removeTimer = function (index) {
             if (confirm("Confirm:\n    remove timer \""
                 + getTimerArr()[index].name
                 + "\"\n        ?")
