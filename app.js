@@ -38,8 +38,8 @@ angular.module('myApp', ['LocalStorageModule'])
             return timerArr;
         }
 
-        const zeroDate = createDurationZero();
-        $scope.zeroDate = zeroDate;
+        const zeroDuration = createDurationZero();
+        $scope.zeroDate = zeroDuration;
 
         $scope.timerArr = getTimerArr();
 
@@ -186,7 +186,7 @@ angular.module('myApp', ['LocalStorageModule'])
                         timer.durationDisplay.ms = tmp.ms;
                     } else {
                         timer.going = false;
-                        timer.durationDisplay = zeroDate;
+                        timer.durationDisplay = zeroDuration;
                         const timerArr = getTimerArr();
                         localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
                         // console.log("done", timer);
