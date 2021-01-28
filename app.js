@@ -146,7 +146,12 @@ angular.module('myApp', ['LocalStorageModule'])
 
         $scope.addMsToTimer = function (timer, ms) {
             if (timer.going) {
-                timer.tFinal += ms;
+                const nowDate = new Date();
+                const nowMs = nowDate.getTime();
+                const timeRemaining = timer.tFinal - nowMs;
+                if (timeRemaining + ms > 0) {
+                    timer.tFinal += ms;
+                }
             } else {
                 addMsToDuration(timer.durationDisplay, ms);
             }
