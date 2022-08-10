@@ -210,14 +210,14 @@ angular.module('myApp', ['LocalStorageModule'])
         }
 
         function createDurationDefault() {
-            var defaultDate = createDurationZero();
-            defaultDate.seconds = 5;
-            return defaultDate;
+            var duration = createDurationZero();
+            duration.seconds = 5;
+            return duration;
         }
 
         function createDurationMinutes(minutes) {
-            var defaultDate = createDurationZero();
-            defaultDate.minutes = minutes;
-            return defaultDate;
+            var duration = createDurationZero();
+            duration.minutes = minutes;
+            return duration;
         }
     }]);
