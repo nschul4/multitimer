@@ -1,5 +1,7 @@
 # a website made using angularjs
 
+This site is live at: https://nschul4.github.io/multitimer/
+
 ```
 rm -rf node_modules package.js package-lock.js
 npm init --yes
