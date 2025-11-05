@@ -103,6 +103,8 @@ angular.module('myApp', ['LocalStorageModule'])
                 timer.tFinal = bumpedDate.getTime();
             }
 
+            timer.finished = false;
+
             const timerArr = getTimerArr();
             localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
 
@@ -189,11 +191,15 @@ angular.module('myApp', ['LocalStorageModule'])
                         timer.durationDisplay.minutes = tmp.minutes;
                         timer.durationDisplay.seconds = tmp.seconds;
                         timer.durationDisplay.ms = tmp.ms;
+                        timer.finished = false;
                     } else {
                         timer.going = false;
                         timer.durationDisplay = zeroDuration;
                         const timerArr = getTimerArr();
                         localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
+                        timer.finished = true;
+                        const alarm = document.getElementById("alarm");
+                        alarm.play();
                         // console.log("done", timer, "@", nowDate);
                     }
                 }

@@ -10,8 +10,9 @@
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">
+    <audio id="alarm" src="60443__jobro__tada1.wav" preload="auto"></audio>
     <div ng-repeat="timer in timerArr">
-        <div>
+        <div ng-style="{'background-color': timer.finished ? 'yellow' : ''}">
             name:
             <span data-ng-show="!editMode">{{ timer.name }}</span>
             <input type="text" data-ng-show="editMode" data-ng-model="timer.name" data-ng-required />
@@ -22,6 +23,7 @@
                 {{ ("00" + timer.durationInit.seconds).slice(-2) }}:
                 {{ ("000" + timer.durationInit.ms).slice(-3)     }}
             </div>
+            <!-- <div>{{ timer.finished }}</div> -->
             <div class="bump-buttons" ng-if="editMode">
                 <button ng-click="addMsToDuration(timer.durationInit, 1000 * 60 * 60)">+hour</button>
                 <button ng-click="addMsToDuration(timer.durationInit, 1000 * 60)">+minute</button>
@@ -42,6 +44,7 @@
                 {{ ("00" + timer.durationDisplay.seconds).slice(-2) }}:
                 {{ ("000" + timer.durationDisplay.ms).slice(-3)     }}
             </div>
+            <!-- <div>{{ timer.finished }}</div> -->
             <div class="bump-buttons">
                 <button ng-click="addMsToTimer(timer, 1000 * 60 * 60)">+hour</button>
                 <button ng-click="addMsToTimer(timer, 1000 * 60)">+minute</button>
