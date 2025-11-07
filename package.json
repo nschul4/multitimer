@@ -1,7 +1,7 @@
 {
   "name": "multitimer",
   "version": "1.0.0",
-  "description": "",
+  "description": "This site is live at: https://nschul4.github.io/multitimer/",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
