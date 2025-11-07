@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
+output_md() {
+  local file=$1
+  local lang=$2
+  echo "# $file"
+  echo
+  echo -n '```'
+  echo $lang
+  cat "$file"
+  echo
+  echo '```'
+  echo
+}
+
 pushd . > /dev/null
 cd /cygdrive/e/dev/multitimer
 trap 'popd > /dev/null' EXIT
 
-fn=./index.html
-echo "# $fn"
-echo '```html'
-cat "$fn"
-echo
-echo '```'
-echo
-
-fn=./app.js
-echo "# $fn"
-echo '```javascript'
-cat "$fn"
-echo
-echo '```'
-echo
+output_md "index.html" "html"
+output_md "app.js" "javascript"
