@@ -198,8 +198,8 @@ angular.module('myApp', ['LocalStorageModule'])
                         const timerArr = getTimerArr();
                         localStorageService.set(LOCAL_STORAGE_KEY, timerArr);
                         timer.finished = true;
-                        const alarm = document.getElementById("alarm");
-                        alarm.play();
+                        const audio = new Audio('60443__jobro__tada1.wav');
+                        audio.play();
                         // console.log("done", timer, "@", nowDate);
                     }
                 }
