@@ -2,7 +2,7 @@
 set -e
 
 pushd . > /dev/null
-cd /cygdrive/e/dev/multitimer
+cd ~/dev/multitimer
 trap 'popd > /dev/null' EXIT
 
 export MYSCRIPTS_LIB=~/dev/bash/sh/lib
